@@ -8,7 +8,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"k8s.io/api/apps/v1beta1"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	policybeta1 "k8s.io/api/policy/v1beta1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -669,6 +669,7 @@ func (c *Cluster) generateStatefulSet(spec *acidv1.PostgresSpec) (*v1beta1.State
 
 	var (
 		err                 error
+		initContainers      []v1.Container
 		sidecarContainers   []v1.Container
 		podTemplate         *v1.PodTemplateSpec
 		volumeClaimTemplate *v1.PersistentVolumeClaim
@@ -735,6 +736,10 @@ func (c *Cluster) generateStatefulSet(spec *acidv1.PostgresSpec) (*v1beta1.State
 		return nil, fmt.Errorf("could not generate resource requirements: %v", err)
 	}
 
+	if c.OpConfig.EnableInitContainers {
+		initContainers = spec.InitContainers
+	}
+
 	customPodEnvVarsList := make([]v1.EnvVar, 0)
 
 	if c.OpConfig.PodEnvironmentConfigMap != "" {
@@ -792,9 +797,11 @@ func (c *Cluster) generateStatefulSet(spec *acidv1.PostgresSpec) (*v1beta1.State
 	}
 
 	// generate sidecar containers
-	if sidecarContainers, err = generateSidecarContainers(sideCars, volumeMounts, defaultResources,
-		c.OpConfig.SuperUsername, c.credentialSecretName(c.OpConfig.SuperUsername), c.logger); err != nil {
-		return nil, fmt.Errorf("could not generate sidecar containers: %v", err)
+	if c.OpConfig.EnableSidecars {
+		if sidecarContainers, err = generateSidecarContainers(sideCars, volumeMounts, defaultResources,
+			c.OpConfig.SuperUsername, c.credentialSecretName(c.OpConfig.SuperUsername), c.logger); err != nil {
+			return nil, fmt.Errorf("could not generate sidecar containers: %v", err)
+		}
 	}
 
 	tolerationSpec := tolerations(&spec.Tolerations, c.OpConfig.PodToleration)
@@ -805,7 +812,7 @@ func (c *Cluster) generateStatefulSet(spec *acidv1.PostgresSpec) (*v1beta1.State
 		c.Namespace,
 		c.labelsSet(true),
 		spiloContainer,
-		spec.InitContainers,
+		initContainers,
 		sidecarContainers,
 		&tolerationSpec,
 		nodeAffinity(c.OpConfig.NodeReadinessLabel),

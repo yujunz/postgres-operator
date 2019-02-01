@@ -71,29 +71,31 @@ type Config struct {
 	Auth
 	Scalyr
 
-	WatchedNamespace string            `name:"watched_namespace"`    // special values: "*" means 'watch all namespaces', the empty string "" means 'watch a namespace where operator is deployed to'
-	EtcdHost         string            `name:"etcd_host" default:""` // special values: the empty string "" means Patroni will use k8s as a DCS
-	DockerImage      string            `name:"docker_image" default:"registry.opensource.zalan.do/acid/spilo-cdp-10:1.4-p8"`
-	Sidecars         map[string]string `name:"sidecar_docker_images"`
+	WatchedNamespace     string            `name:"watched_namespace"`    // special values: "*" means 'watch all namespaces', the empty string "" means 'watch a namespace where operator is deployed to'
+	EtcdHost             string            `name:"etcd_host" default:""` // special values: the empty string "" means Patroni will use k8s as a DCS
+	DockerImage          string            `name:"docker_image" default:"registry.opensource.zalan.do/acid/spilo-cdp-10:1.4-p8"`
+	Sidecars             map[string]string `name:"sidecar_docker_images"`
+	EnableSidecars       bool              `name:"enable_sidecars" default:"false"`
+	EnableInitContainers bool              `name:"enable_init_containers" default:"false"`
 	// default name `operator` enables backward compatibility with the older ServiceAccountName field
 	PodServiceAccountName string `name:"pod_service_account_name" default:"operator"`
 	// value of this string must be valid JSON or YAML; see initPodServiceAccount
-	PodServiceAccountDefinition            string `name:"pod_service_account_definition" default:""`
-	PodServiceAccountRoleBindingDefinition string `name:"pod_service_account_role_binding_definition" default:""`
-	DbHostedZone                           string `name:"db_hosted_zone" default:"db.example.com"`
-	AWSRegion                              string `name:"aws_region" default:"eu-central-1"`
-	WALES3Bucket                           string `name:"wal_s3_bucket"`
-	LogS3Bucket                            string `name:"log_s3_bucket"`
-	KubeIAMRole                            string `name:"kube_iam_role"`
-	DebugLogging                           bool   `name:"debug_logging" default:"true"`
-	EnableDBAccess                         bool   `name:"enable_database_access" default:"true"`
-	EnableTeamsAPI                         bool   `name:"enable_teams_api" default:"true"`
-	EnableTeamSuperuser                    bool   `name:"enable_team_superuser" default:"false"`
-	TeamAdminRole                          string `name:"team_admin_role" default:"admin"`
-	EnableAdminRoleForUsers                bool   `name:"enable_admin_role_for_users" default:"true"`
-	EnableMasterLoadBalancer               bool   `name:"enable_master_load_balancer" default:"true"`
-	EnableReplicaLoadBalancer              bool   `name:"enable_replica_load_balancer" default:"false"`
-	CustomServiceAnnotations			   map[string]string `name:"custom_service_annotations"`
+	PodServiceAccountDefinition            string            `name:"pod_service_account_definition" default:""`
+	PodServiceAccountRoleBindingDefinition string            `name:"pod_service_account_role_binding_definition" default:""`
+	DbHostedZone                           string            `name:"db_hosted_zone" default:"db.example.com"`
+	AWSRegion                              string            `name:"aws_region" default:"eu-central-1"`
+	WALES3Bucket                           string            `name:"wal_s3_bucket"`
+	LogS3Bucket                            string            `name:"log_s3_bucket"`
+	KubeIAMRole                            string            `name:"kube_iam_role"`
+	DebugLogging                           bool              `name:"debug_logging" default:"true"`
+	EnableDBAccess                         bool              `name:"enable_database_access" default:"true"`
+	EnableTeamsAPI                         bool              `name:"enable_teams_api" default:"true"`
+	EnableTeamSuperuser                    bool              `name:"enable_team_superuser" default:"false"`
+	TeamAdminRole                          string            `name:"team_admin_role" default:"admin"`
+	EnableAdminRoleForUsers                bool              `name:"enable_admin_role_for_users" default:"true"`
+	EnableMasterLoadBalancer               bool              `name:"enable_master_load_balancer" default:"true"`
+	EnableReplicaLoadBalancer              bool              `name:"enable_replica_load_balancer" default:"false"`
+	CustomServiceAnnotations               map[string]string `name:"custom_service_annotations"`
 	// deprecated and kept for backward compatibility
 	EnableLoadBalancer       *bool             `name:"enable_load_balancer"`
 	MasterDNSNameFormat      StringTemplate    `name:"master_dns_name_format" default:"{cluster}.{team}.{hostedzone}"`

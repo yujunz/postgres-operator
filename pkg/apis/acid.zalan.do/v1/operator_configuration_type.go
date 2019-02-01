@@ -145,6 +145,8 @@ type OperatorConfigurationData struct {
 	ResyncPeriod               Duration                     `json:"resync_period,omitempty"`
 	RepairPeriod               Duration                     `json:"repair_period,omitempty"`
 	Sidecars                   map[string]string            `json:"sidecar_docker_images,omitempty"`
+	EnableSidecars             bool                         `json:"enable_sidecars"`
+	EnableInitContainers       bool                         `json:"enable_init_containers"`
 	PostgresUsersConfiguration PostgresUsersConfiguration   `json:"users"`
 	Kubernetes                 KubernetesMetaConfiguration  `json:"kubernetes"`
 	PostgresPodResources       PostgresPodResourcesDefaults `json:"postgres_pod_resources"`
