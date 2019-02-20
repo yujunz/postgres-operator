@@ -146,6 +146,63 @@ data:
   ...
 ```
 
+Note that the Kubernetes version 1.13 brings [taint-based eviction](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#taint-based-evictions) to the beta stage and enables it by default.
+Postgres pods by default receive tolerations for `unreachable` and `noExecute` taints with the timeout of `5m`.
+Depending on your setup, you may want to adjust these parameters to prevent master pods from being evicted by the Kubernetes runtime.
+To prevent eviction completely, specify the toleration by leaving out the `tolerationSeconds` value (similar to how Kubernetes' own DaemonSets are configured)
+
+### Add cluster-specific labels
+
+In some cases, you might want to add `labels` that are specific to a given
+postgres cluster, in order to identify its child objects.
+The typical use case is to add labels that identifies the `Pods` created by the
+operator, in order to implement fine-controlled `NetworkPolicies`.
+
+**OperatorConfiguration**
+
+```yaml
+apiVersion: "acid.zalan.do/v1"
+kind: OperatorConfiguration
+metadata:
+  name: postgresql-operator-configuration
+configuration:
+  kubernetes:
+    inherited_labels:
+    - application
+    - environment
+...
+```
+
+**cluster manifest**
+
+```yaml
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: demo-cluster
+  labels:
+    application: my-app
+    environment: demo
+spec:
+...
+```
+
+**network policy**
+
+```yaml
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: netpol-example
+spec:
+  podSelector:
+    matchLabels:
+      application: my-app
+      environment: demo
+...
+```
+
+
 ## Custom Pod Environment Variables
 
 It is possible to configure a ConfigMap which is used by the Postgres pods as
