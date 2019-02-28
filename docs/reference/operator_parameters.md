@@ -69,10 +69,18 @@ Those are top-level keys, containing both leaf keys and groups.
   your own Spilo image from the [github
   repository](https://github.com/zalando/spilo).
 
+* **enable_init_containers**
+  global option to allow for creating init containers to run actions before
+  Spilo is started
+
+* **enable_sidecars**
+  global option to allow for creating sidecar containers to run alongside Spilo
+  on the same pod
+
 * **sidecar_docker_images**
-  a map of sidecar names to docker images for the containers to run alongside
-  Spilo. In case of the name conflict with the definition in the cluster
-  manifest the cluster-specific one is preferred.
+  a map of sidecar names to docker images to run with Spilo. In case of the name
+  conflict with the definition in the cluster manifest the cluster-specific one
+  is preferred.
 
 * **workers**
   number of working routines the operator spawns to process requests to

@@ -262,3 +262,6 @@ defined in the sidecar dictionary:
   a dictionary of environment variables. Use usual Kubernetes definition
   (https://kubernetes.io/docs/tasks/inject-data-application/environment-variable-expose-pod-information/)
   for environment variables. Optional.
+
+**Note**: Sidecars will only be created if enabled in the cluster configuration
+(`enable_sidecars` option).
