@@ -1,11 +1,11 @@
 package v1
 
 import (
-	"github.com/zalando-incubator/postgres-operator/pkg/util/config"
+	"github.com/zalando/postgres-operator/pkg/util/config"
 
 	"time"
 
-	"github.com/zalando-incubator/postgres-operator/pkg/spec"
+	"github.com/zalando/postgres-operator/pkg/spec"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -60,6 +60,8 @@ type KubernetesMetaConfiguration struct {
 	// TODO: use namespacedname
 	PodEnvironmentConfigMap string `json:"pod_environment_configmap,omitempty"`
 	PodPriorityClassName    string `json:"pod_priority_class_name,omitempty"`
+	EnablePodAntiAffinity                  bool                  `json:"enable_pod_antiaffinity" default:"false"`
+	PodAntiAffinityTopologyKey			   string                `name:"pod_antiaffinity_topology_key" default:"kubernetes.io/hostname"`
 }
 
 // PostgresPodResourcesDefaults defines the spec of default resources
