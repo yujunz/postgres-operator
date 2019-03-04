@@ -836,7 +836,7 @@ func (c *Cluster) generateStatefulSet(spec *acidv1.PostgresSpec) (*v1beta1.State
 				return nil, fmt.Errorf("could not generate sidecar containers: %v", err)
 			}
 		} else {
-			return nil, fmt.Errorf("InitContainers specified but globally disabled!")
+			return nil, fmt.Errorf("Sidecar containers specified but globally disabled!")
 		}
 	}
 
