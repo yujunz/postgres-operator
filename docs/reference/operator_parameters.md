@@ -71,11 +71,11 @@ Those are top-level keys, containing both leaf keys and groups.
 
 * **enable_init_containers**
   global option to allow for creating init containers to run actions before
-  Spilo is started
+  Spilo is started. Disabled by default.
 
 * **enable_sidecars**
   global option to allow for creating sidecar containers to run alongside Spilo
-  on the same pod
+  on the same pod. Disabled by default.
 
 * **sidecar_docker_images**
   a map of sidecar names to docker images to run with Spilo. In case of the name

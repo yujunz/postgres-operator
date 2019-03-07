@@ -263,5 +263,6 @@ defined in the sidecar dictionary:
   (https://kubernetes.io/docs/tasks/inject-data-application/environment-variable-expose-pod-information/)
   for environment variables. Optional.
 
-**Note**: Sidecars will only be created if enabled in the cluster configuration
-(`enable_sidecars` option).
+  **Note**: The operator will not launch a cluster if sidecar containers are specified
+  but globally disabled in the configuration. The `enable_sidecars` option
+  must be set to `true`.

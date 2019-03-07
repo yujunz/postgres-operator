@@ -273,9 +273,9 @@ are always passed to sidecars:
 
 The PostgreSQL volume is shared with sidecars and is mounted at `/home/postgres/pgdata`.
 
-**Note**: By default, the creation of sidecar containers is disabled. They will
-not get created - even when specified in the manifest - unless the `enable_sidecars`
-option is set to `true`.
+**Note**: The operator will not launch a cluster if sidecar containers are specified
+but globally disabled in the configuration. The `enable_sidecars` option
+must be set to `true`.
 
 ## InitContainers Support
 
@@ -301,9 +301,9 @@ spec:
 
 `init_containers` accepts full `v1.Container` definition.
 
-**Note**: By default, the creation of init containers is disabled. They will
-not get created - even when specified in the manifest - unless the
-`enable_init_containers` option is set to `true`.
+**Note**: The operator will not launch a cluster if init containers are specified
+but globally disabled in the configuration. The `enable_init_containers` option
+must be set to `true`.
 
 ## Increase volume size
 
