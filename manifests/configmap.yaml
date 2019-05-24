@@ -10,7 +10,7 @@ data:
 
   debug_logging: "true"
   workers: "4"
-  docker_image: registry.opensource.zalan.do/acid/spilo-11:1.5-p4
+  docker_image: registry.opensource.zalan.do/acid/spilo-cdp-11:1.5-p70
   pod_service_account_name: "zalando-postgres-operator"
   enable_init_containers: "false"
   enable_sidecars: "false"
@@ -32,6 +32,7 @@ data:
   # pam_role_name: zalandos
   # pam_configuration: |
   #  https://info.example.com/oauth2/tokeninfo?access_token= uid realm=/employees
+  # inherited_labels: ""
   aws_region: eu-central-1
   db_hosted_zone: db.example.com
   master_dns_name_format: '{cluster}.{team}.staging.{hostedzone}'
@@ -55,3 +56,7 @@ data:
   resource_check_interval: 3s
   resource_check_timeout: 10m
   resync_period: 5m
+
+  # logical_backup_schedule: "30 00 * * *"
+  # logical_backup_docker_image: "registry.opensource.zalan.do/acid/logical-backup"
+  # logical_backup_s3_bucket: ""
