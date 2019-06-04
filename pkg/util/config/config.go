@@ -26,6 +26,7 @@ type Resources struct {
 	PodDeletionWaitTimeout  time.Duration     `name:"pod_deletion_wait_timeout" default:"10m"`
 	PodTerminateGracePeriod time.Duration     `name:"pod_terminate_grace_period" default:"5m"`
 	PodPriorityClassName    string            `name:"pod_priority_class_name"`
+	ClusterDomain           string            `name:"cluster_domain" default:"cluster.local"`
 	SpiloPrivileged         bool              `name:"spilo_privileged" default:"false"`
 	ClusterLabels           map[string]string `name:"cluster_labels" default:"application:spilo"`
 	InheritedLabels         []string          `name:"inherited_labels" default:""`
@@ -83,7 +84,7 @@ type Config struct {
 
 	WatchedNamespace     string            `name:"watched_namespace"`    // special values: "*" means 'watch all namespaces', the empty string "" means 'watch a namespace where operator is deployed to'
 	EtcdHost             string            `name:"etcd_host" default:""` // special values: the empty string "" means Patroni will use k8s as a DCS
-	DockerImage          string            `name:"docker_image" default:"registry.opensource.zalan.do/acid/spilo-cdp-10:1.4-p8"`
+	DockerImage          string            `name:"docker_image" default:"registry.opensource.zalan.do/acid/spilo-11:1.5-p7"`
 	Sidecars             map[string]string `name:"sidecar_docker_images"`
 	EnableSidecars       bool              `name:"enable_sidecars" default:"false"`
 	EnableInitContainers bool              `name:"enable_init_containers" default:"false"`
